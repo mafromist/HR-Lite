@@ -1,11 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Lit Starter Kit</title>
+
+    <style>
+      @font-face {
+        font-family: 'INGIcons';
+        src: url('./assets/fonts/ing-icons-v4-4.ttf') format('truetype');
+      }
+      .icon {
+        font-family: 'INGIcons';
+        font-size: 24px;
+      }
+
+      :root {
+        --font-family-global: 'INGFont', sans-serif;
+        --font-family-icons: 'INGIcons';
+      }
+    </style>
+    <link rel="icon" href="./assets/favicon.ico">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/lit/polyfill-support.js"></script>
+    <script type="module" src="../app.js"></script>
+    <title>HR Lite - Employee Management</title>
   </head>
   <body>
-    <a href="/dev/index.html">Component Demo</a>
+    <!-- <div class="icon">&#xE6B8; icon-ing-lion</div> -->
+
+    <app-root> </app-root>
   </body>
 </html>
