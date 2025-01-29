@@ -16,6 +16,7 @@ export class IconComponent extends LitElement {
     svg {
       width: 100%;
       height: 100%;
+      line-height: 0;
     }
 
     svg:hover {

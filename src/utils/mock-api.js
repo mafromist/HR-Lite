@@ -7,7 +7,7 @@ const createRandomDate = (start, end) => {
 };
 
 const createRandomPhoneNumber = () => {
-  return `+90${Math.floor(500000000 + Math.random() * 499999999)}`;
+  return `+(90) ${Math.floor(500 + Math.random() * 90)} ${Math.floor(Math.random() * 9999999)}`;
 };
 
 const TRtoENGCharacter = (text) => {

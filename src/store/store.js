@@ -51,7 +51,7 @@ class Store extends LitState {
       Math.max(...this.state.employees.map((emp) => parseInt(emp.id)), 0) + 1;
     const newEmployee = {id: newId.toString(), ...employee, selected: false};
     this.state = {
-      employees: [...this.state.employees, newEmployee],
+      employees: [newEmployee, ...this.state.employees],
     };
     localStorage.setItem(this.storageKey, JSON.stringify(this.state.employees));
     return newEmployee;
@@ -75,7 +75,6 @@ class Store extends LitState {
   }
 
   deleteEmployee(id) {
-    console.log(this.state.employees);
     this.state = {
       employees: this.state.employees.filter((emp) => emp.id !== id),
     };
