@@ -1,6 +1,8 @@
 import {LitElement, html} from 'lit';
 import {router} from './src/router/router.js';
 import './src/components/navigation.js';
+import {store} from './src/store/store.js';
+import { translate } from './src/utils/translate'; 
 
 export class App extends LitElement {
   //Added ING Font and ING Icon Fonts
@@ -55,6 +57,20 @@ export class App extends LitElement {
   constructor() {
     super();
     this.router = router;
+    this.checkLanguage(); // Check if language is initialized
+    // this.isLoading = true;
+  }
+
+  checkLanguage() {
+    const currentLanguage = store.fetchLanguage();
+    if (currentLanguage) {
+      this.loading = false;  
+      this.requestUpdate();  
+    } else {
+      store.setLanguage('en');
+      this.loading = false;
+      this.requestUpdate();
+    }
   }
 
   firstUpdated() {
@@ -65,6 +81,13 @@ export class App extends LitElement {
   }
 
   render() {
+    const currentLanguage = store.fetchLanguage();
+    console.log(currentLanguage);
+
+    if (this.isLoading || !currentLanguage) {
+      return html`<div>${translate('warnings.loading')}</div>`;  // Translate loading text
+    }
+
     return html`
       <navigation-component></navigation-component>
       <main>

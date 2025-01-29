@@ -13,14 +13,13 @@ if (!['dev', 'prod'].includes(mode)) {
 
 export default {
   nodeResolve: {exportConditions: mode === 'dev' ? ['development'] : []},
-  rootDir: './', // Your project root
-  appIndex: 'index.html', // Entry point
+  rootDir: './',
+  appIndex: 'index.html',
   preserveSymlinks: true,
   open: true,
   plugins: [
     legacyPlugin({
       polyfills: {
-        // Manually imported in index.html file
         webcomponents: false,
       },
     }),
@@ -28,10 +27,10 @@ export default {
   middleware: [
     (context, next) => {
       if (
-        !context.url.startsWith('/api') && // Allow API calls
-        !context.url.includes('.')        // Ignore file requests (like app.js)
+        !context.url.startsWith('/api') && 
+        !context.url.includes('.')       
       ) {
-        context.url = '/';                // Redirect to index.html
+        context.url = '/';
       }
       return next();
     },

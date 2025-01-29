@@ -6,9 +6,9 @@ export const router = new Router();
 router.setRoutes([
   {
     path: '/',
-    component: 'employee-list',
+    component: 'employee-list-view',
     action: async () => {
-      document.title = 'ING - Çalışan Listesi';
+      document.title = 'HR-Lite | Employee List';
       return undefined;
     }
   },
@@ -16,7 +16,7 @@ router.setRoutes([
     path: '/add',
     component: 'employee-add-update',
     action: async () => {
-      document.title = 'ING - Çalışan Ekle';
+      document.title = 'HR-Lite | Add New Employee';
       await import(/* webpackChunkName: "employee-add-update" */ '../views/employee-add-update-view.js');
     }
   },
@@ -24,7 +24,7 @@ router.setRoutes([
     path: '/edit/:id',
     component: 'employee-add-update',
     action: async () => {
-      document.title = 'ING - Çalışan Düzenle';
+      document.title = 'HR-Lite | Update Employee';
       await import(/* webpackChunkName: "employee-add-update" */ '../views/employee-add-update-view.js');
     }
   },

@@ -16,26 +16,35 @@ class Store extends LitState {
   constructor() {
     super();
     this.storageKey = 'store';
+    this.language = 'en'; // Default language is 'en'
+    this.subscribers = [];
+
     const storedData = localStorage.getItem(this.storageKey);
     if (!storedData) {
       const mockData = generateMockEmployees(100);
       localStorage.setItem(this.storageKey, JSON.stringify(mockData));
     }
     this.state = {
-      employees: JSON.parse(localStorage.getItem(this.storageKey) || '[]'),
       language: localStorage.setItem('language', 'en'),
+      employees: JSON.parse(localStorage.getItem(this.storageKey) || '[]'),
     };
   }
 
   fetchLanguage() {
-    return this.state.language;
+    return this.language;
   }
 
-  updateLanguage(language) {
-    this.state = {
-      language: language,
-    };
-    localStorage.setItem('language', language);
+  setLanguage(language) {
+    this.language = language;
+    this.notifySubscribers();
+  }
+
+  subscribe(callback) {
+    this.subscribers.push(callback);
+  }
+
+  notifySubscribers() {
+    this.subscribers.forEach((callback) => callback(this.language));
   }
 
   fetchEmployees() {

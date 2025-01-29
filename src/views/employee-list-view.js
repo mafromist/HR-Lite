@@ -1,12 +1,14 @@
 import {html, css} from 'lit';
+import { globalStyles } from '../global-styles.js';
 import {ParentComponent} from '../components/parent-component';
 import {store} from '../store/store';
 import '../components/modal';
 import '../components/tooltip-component';
 import {tableIcon, gridIcon, deleteIcon, editIcon} from '../utils/svg-template';
+import { translate } from '../utils/translate.js';
 
-class EmployeeListComponent extends ParentComponent {
-  static styles = css`
+export class EmployeeListView extends ParentComponent {
+  static styles = [globalStyles, css`
     .employee-list {
       padding: 20px 56px;
     }
@@ -185,20 +187,6 @@ class EmployeeListComponent extends ParentComponent {
       color: var(--ing-orange);
     }
 
-    .delete-all-btn {
-      background-color: var(--ing-orange);
-      color: var(--white);
-      border: none;
-      border-radius: 5px;
-      padding: 8px 16px;
-    }
-
-    .delete-all-btn:hover {
-      background-color: transparent;
-      color: var(--ing-orange);
-      outline: 2px solid var(--ing-orange);
-    }
-
     .pagination {
       margin-top: 20px;
       display: flex;
@@ -328,23 +316,6 @@ class EmployeeListComponent extends ParentComponent {
       text-align: center;
     }
 
-    .no-employees .btn {
-      background-color: var(--ing-orange);
-      color: var(--white);
-      padding: 8px 16px;
-      font-size: 16px;
-      outline: none;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .no-employees .btn:hover {
-      background-color: transparent;
-      color: var(--ing-blue);
-      outline: 2px solid var(--ing-blue);
-    }
-
     @media only screen and (min-width: 768px) {
       .grid-view .actions-buttons {
         display: flex;
@@ -363,7 +334,7 @@ class EmployeeListComponent extends ParentComponent {
         align-items: center;
       }
     }
-  `;
+  `];
 
   static properties = {
     employees: {type: Array},
@@ -429,7 +400,6 @@ class EmployeeListComponent extends ParentComponent {
   }
 
   handleSearch(e) {
-    console.log(e.target.value);
     const inputValue = e?.target?.value?.trim() || '';
     this.searchQuery = inputValue;
     this.currentPage = 1;
@@ -518,24 +488,24 @@ class EmployeeListComponent extends ParentComponent {
 
   render() {
     if (this.loading) {
-      return html`<p>Loading...</p>`;
+      return html`<p>${translate('warnings.loading')}</p>`;
     }
 
     if (!this.filteredEmployees.length) {
       return html`<div class="no-employees">
-        <p>No employees found</p>
+        <p>${translate('warnings.noEmployees')}</p>
         <button
-          class="btn home-link"
+          class="btn-primary"
           @click="${() => (window.location.href = '/')}"
         >
-          Go to back to Employee List
+        ${translate('buttons.homePage')}
         </button>
       </div>`;
     } else {
       return html`
         <section class="employee-list">
           <div class="header">
-            <h2 class="title">Employee List</h2>
+            <h2 class="title">${translate('title.employeeList')}</h2>
 
             <div class="features">
               <div class="header-actions">
@@ -543,12 +513,12 @@ class EmployeeListComponent extends ParentComponent {
                 ${this.selectedEmployeesIDs.length > 0
                   ? html`
                       <button
-                        class="delete-all-btn"
+                        class="btn-primary small"
                         @click="${this.onDeleteSelected}"
                         data-tooltip="Delete All Selected Employees"
                         aria-label="Delete Selected Employees"
                       >
-                        Delete Selected Employees
+                      ${translate('buttons.deleteSelected')}
                       </button>
                     `
                   : ''}
@@ -558,7 +528,7 @@ class EmployeeListComponent extends ParentComponent {
                   <input
                     type="search"
                     id="search"
-                    placeholder="Search Employees"
+                    placeholder="${translate('placeholder.search')}"
                     class="search-input"
                     @input=${this.handleSearch}
                     @search=${this.clearSearch}
@@ -573,24 +543,24 @@ class EmployeeListComponent extends ParentComponent {
                 <tooltip-component>
                   <button
                     class="table-view-btn toggle-view-btn"
-                    @click="${this.switchViewMode}"
+                    @click="${()=>this.switchViewMode('table')}"
                     ?disabled=${this.viewMode === 'table'}
-                    aria-label="Table View Button"
+                    aria-label="${translate('viewMode.table')} Button"
                   >
                     <icon-component .icon=${tableIcon}></icon-component>
                   </button>
-                  <div slot="tooltip">Table View</div>
+                  <div slot="tooltip">${translate('viewMode.table')}</div>
                 </tooltip-component>
                 <tooltip-component>
                   <button
                     class="grid-view-btn toggle-view-btn"
-                    @click="${this.switchViewMode}"
+                    @click="${()=>this.switchViewMode('grid')}"
                     ?disabled=${this.viewMode === 'grid'}
-                    aria-label="Grid View Button"
+                    aria-label="${translate('viewMode.grid')}"
                   >
                     <icon-component .icon=${gridIcon}></icon-component>
                   </button>
-                  <div slot="tooltip">Grid View</div>
+                  <div slot="tooltip">${translate('viewMode.grid')}</div>
                 </tooltip-component>
               </div>
             </div>
@@ -598,7 +568,7 @@ class EmployeeListComponent extends ParentComponent {
 
           <!-- Grid View -->
           ${this.viewMode === 'grid'
-            ? html` <div class="grid-view" aria-label="Employee List">
+            ? html` <div class="grid-view" aria-label="${translate('title.employeeList')}">
                 ${this.filteredEmployees.map(
                   (employee) => html`
                     <div
@@ -611,9 +581,9 @@ class EmployeeListComponent extends ParentComponent {
                         </div>
                         <div
                           class="detail"
-                          aria-label="Employee's Date of Birth"
+                          aria-label="Employee's ${translate('labels.dateOfBirth')}"
                         >
-                          <span class="category">Date of Birth:</span>
+                          <span class="category">${translate('labels.dateOfBirth')}:</span>
                           <span>${employee.dateOfBirth}</span>
                         </div>
                         <div
@@ -639,9 +609,9 @@ class EmployeeListComponent extends ParentComponent {
 
                         <div
                           class="detail"
-                          aria-label="Employee's Date of Employment"
+                          aria-label="Employee's ${translate('labels.dateOfEmployment')}"
                         >
-                          <span class="category">Date of Employment: </span>
+                          <span class="category">${translate('labels.dateOfEmployment')}: </span>
                           <span>${employee.dateOfEmployment}</span>
                         </div>
                       </div>
@@ -726,12 +696,12 @@ class EmployeeListComponent extends ParentComponent {
                       Last Name
                     </th>
                     <th
-                      aria-label="Table Header for Employee's Date of Employment"
+                      aria-label="Table Header for Employee's ${translate('labels.dateOfEmployment')}"
                     >
-                      Date of Employment
+                      ${translate('labels.dateOfEmployment')}
                     </th>
-                    <th aria-label="Table Header for Employee's Date of Birth">
-                      Date of Birth
+                    <th aria-label="Table Header for Employee's ${translate('labels.dateOfBirth')}">
+                      ${translate('labels.dateOfBirth')}
                     </th>
                     <th aria-label="Table Header for Employee's Phone">
                       Phone
@@ -775,10 +745,10 @@ class EmployeeListComponent extends ParentComponent {
                         <td aria-label="Employee's Last Name" class="name">
                           ${employee.lastName}
                         </td>
-                        <td aria-label="Employee's Date of Employment">
+                        <td aria-label="Employee's ${translate('labels.dateOfEmployment')}">
                           ${employee.dateOfEmployment}
                         </td>
-                        <td aria-label="Employee's Date of Birth">
+                        <td aria-label="Employee's ${translate('labels.dateOfBirth')}">
                           ${employee.dateOfBirth}
                         </td>
                         <td aria-label="Employee's Phone">
@@ -866,7 +836,8 @@ class EmployeeListComponent extends ParentComponent {
 
   // Pagination //
 
-  // TODO: Pagination is not working properly. Need to fix the issue. The numbers not showing without clicking the next or previous button.
+  // TODO: Pagination is not working properly. Need to fix the issue. 
+  // The numbers not showing without clicking the next or previous button.
 
   setPage = (pageNum) => {
     if (pageNum < 1 || pageNum > this.totalPages) return;
@@ -928,8 +899,8 @@ class EmployeeListComponent extends ParentComponent {
 
   // Switch between list and table view //
 
-  switchViewMode() {
-    this.viewMode = this.viewMode === 'grid' ? 'table' : 'grid';
+  switchViewMode(newMode) {
+    this.viewMode = newMode
   }
 
   // End of Switch between list and table view //
@@ -1016,6 +987,4 @@ class EmployeeListComponent extends ParentComponent {
   // End of Edit and Delete Functionality //
 }
 
-customElements.define('employee-list', EmployeeListComponent);
-
-// TODO: Add search fuctionality to filter the employees based on the search query
+customElements.define('employee-list-view', EmployeeListView);

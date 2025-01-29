@@ -28,12 +28,6 @@ export class Modal extends LitElement {
   }
 
   static styles = css`
-    :host {
-      --white: #ffffff;
-      --ing-orange: #ff6200;
-      --ing-blue: #052868;
-    }
-
     .modal {
       z-index: 1;
       position: fixed;
@@ -155,7 +149,6 @@ export class Modal extends LitElement {
   }
 
   closeModal() {
-    console.log('close modal');
     this.isActive = false;
   }
 }

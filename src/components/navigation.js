@@ -1,6 +1,8 @@
 import {html, css} from 'lit';
 import {ParentComponent} from './parent-component';
 import '../utils/icon-template.js';
+import { translate } from '../utils/translate.js';
+
 import {
   employeeIcon,
   trFlagIcon,
@@ -8,17 +10,11 @@ import {
   ingLogo,
   addIcon,
 } from '../utils/svg-template.js';
+
 import {store} from '../store/store.js';
 
 export class Navigation extends ParentComponent {
   static styles = css`
-    :host {
-      --ing-orange: #ff6200;
-      --ing-gray: #dddada;
-      --ing-dark-gray: #333333;
-      --white: #ffffff;
-    }
-
     nav {
       margin: 10px 30px;
       padding: 6px 16px;
@@ -97,14 +93,15 @@ export class Navigation extends ParentComponent {
 
   constructor() {
     super();
-    this.selectedLanguage = '';
+    this.selectedLanguage = store.fetchLanguage();
   }
 
   switchLanguage() {
     this.selectedLanguage === 'tr'
       ? (this.selectedLanguage = 'en')
       : (this.selectedLanguage = 'tr');
-    store.updateLanguage(this.selectedLanguage);
+    store.setLanguage(this.selectedLanguage);
+    this.requestUpdate();
   }
 
   render() {
@@ -120,11 +117,10 @@ export class Navigation extends ParentComponent {
           <div class="nav-links">
             <a href="/" class="nav-link home">
               <icon-component .icon="${employeeIcon}"></icon-component
-              >Employees</a
+              >${translate('navigation.employees')}</a
             >
             <a href="/add" class="nav-link add">
-              <icon-component .icon="${addIcon}"></icon-component>Add New
-              Employee</a
+              <icon-component .icon="${addIcon}"></icon-component>${translate('navigation.addNewEmployee')}</a
             >
           </div>
           <button @click=${this.switchLanguage} class="language-switcher">

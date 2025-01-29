@@ -2,6 +2,7 @@ import {html, css} from 'lit';
 import {ParentComponent} from './parent-component';
 import {store} from '../store/store';
 import './modal';
+import { translate } from '../utils/translate.js';
 
 export class EmployeeForm extends ParentComponent {
   static styles = css`
@@ -194,7 +195,6 @@ export class EmployeeForm extends ParentComponent {
     if (this.employeeID) {
       this.isUpdate = true;
       this.employeeData = await store.fetchEmployee(this.employeeID);
-      console.log('Employee:', this.employeeData);
     }
   }
 
@@ -272,28 +272,28 @@ export class EmployeeForm extends ParentComponent {
           />
         </div>
         <div>
-          <label for="dateOfBirth">Date of Birth</label>
+          <label for="dateOfBirth">${translate('labels.dateOfBirth')}</label>
           <input
             type="date"
             name="dateOfBirth"
-            placeholder="Date of Birth"
+            placeholder="${translate('labels.dateOfBirth')}"
             @input=${this.onInput}
             value=${this.employeeData.dateOfBirth}
             required
-            aria-label="Input for Date of Birth"
+            aria-label="Input for ${translate('labels.dateOfBirth')}"
             class="date-input date-of-birth"
           />
         </div>
         <div>
-          <label for="dateOfEmployment">Date of Employment</label>
+          <label for="dateOfEmployment">${translate('labels.dateOfEmployment')}</label>
           <input
             type="date"
             name="dateOfEmployment"
-            placeholder="Date of Employment"
+            placeholder="${translate('labels.dateOfEmployment')}"
             value=${this.employeeData.dateOfEmployment}
             @input=${this.onInput}
             required
-            aria-label="Input for Date of Employment"
+            aria-label="Input for ${translate('labels.dateOfEmployment')}"
             class="date-input date-of-employment"
           />
         </div>

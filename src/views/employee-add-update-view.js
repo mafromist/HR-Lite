@@ -9,7 +9,7 @@ export class EmployeeAddUpdate extends ParentComponent {
       padding: 20px 56px;
     }
     .page-title {
-      text-align: left;
+      text-align: center;
       color: var(--ing-orange);
     }
   `;
@@ -19,8 +19,6 @@ export class EmployeeAddUpdate extends ParentComponent {
 
   constructor() {
     super();
-
-    // Get the employee ID from the URL
     const urlParts = window.location.pathname.split('/');
     const lastPartOfURL = urlParts[urlParts.length - 1];
     this.id = lastPartOfURL;
