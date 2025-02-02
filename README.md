@@ -2,20 +2,11 @@
 
 Web application will help manage employee information at the HR Department
 
-NOTE: Vercel build is not working, please follow commands on local machines below
-
------------------------------------------------------------------------------------
-## NOTE: Vercel build is not working, please follow commands on local machines below
+## Run on your local machine
   - Install Node v20 or above
   - Run "npm run serve" command on terminal to display the application
   - Go to the url http://localhost:8000
 
-### Screenshots from Local Machine
-![home-view](https://github.com/user-attachments/assets/4583999a-9c38-40c4-b4e4-cd7295edba9b)
-
-![add-employee-view](https://github.com/user-attachments/assets/d288ecf1-f531-4630-b854-5a4454e5b077)
-
------------------------------------------------------------------------------------
 
 The application should consist of the functionality below:
 ## Requirements: 
